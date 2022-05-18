@@ -5,6 +5,8 @@
 #include <string.h>
 #include <sys/queue.h>
 
+pthread_mutex_t lock;
+
 struct list_entry {
 	const char *key;
 	uint32_t value;
@@ -25,6 +27,10 @@ struct hash_table_v1 *hash_table_v1_create()
 {
 	struct hash_table_v1 *hash_table = calloc(1, sizeof(struct hash_table_v1));
 	assert(hash_table != NULL);
+	int status = pthread_mutex_init(&lock,NULL);
+	if(status != 0){
+		exit(status);
+	}
 	for (size_t i = 0; i < HASH_TABLE_CAPACITY; ++i) {
 		struct hash_table_entry *entry = &hash_table->entries[i];
 		SLIST_INIT(&entry->list_head);
@@ -70,6 +76,10 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table,
                              const char *key,
                              uint32_t value)
 {
+	int status = pthread_mutex_lock(&lock);
+	if(status != 0){
+		exit(status);
+	}
 	struct hash_table_entry *hash_table_entry = get_hash_table_entry(hash_table, key);
 	struct list_head *list_head = &hash_table_entry->list_head;
 	struct list_entry *list_entry = get_list_entry(hash_table, key, list_head);
@@ -84,6 +94,10 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table,
 	list_entry->key = key;
 	list_entry->value = value;
 	SLIST_INSERT_HEAD(list_head, list_entry, pointers);
+	status = pthread_mutex_unlock(&lock);
+	if(status != 0){
+		exit(status);
+	}
 }
 
 uint32_t hash_table_v1_get_value(struct hash_table_v1 *hash_table,
