@@ -24,28 +24,28 @@ struct hash_table_v2 {
 };
 
 void init_lock_v2(pthread_mutex_t *lock){
-	int status = pthread_mutex_init(&lock,NULL);
+	int status = pthread_mutex_init(lock,NULL);
 	if(status != 0){
 		exit(status);
 	}
 }
 
 void lock_lock_v2(pthread_mutex_t *lock){
-	int status = pthread_mutex_lock(&lock);
+	int status = pthread_mutex_lock(lock);
 	if(status != 0){
 		exit(status);
 	}
 }
 
 void unlock_lock_v2(pthread_mutex_t *lock){
-	int status = pthread_mutex_unlock(&lock);
+	int status = pthread_mutex_unlock(lock);
 	if(status != 0){
 		exit(status);
 	}
 }
 
 void destroy_lock_v2(pthread_mutex_t *lock){
-	int status = pthread_mutex_destroy(&lock);
+	int status = pthread_mutex_destroy(lock);
 	if(status != 0){
 		exit(status);
 	}
