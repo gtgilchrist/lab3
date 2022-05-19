@@ -1,5 +1,6 @@
 #include "hash-table-base.h"
 
+#include <pthread.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
