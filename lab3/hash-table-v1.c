@@ -24,15 +24,18 @@ struct hash_table_entry {
 struct hash_table_v1 {
 	struct hash_table_entry entries[HASH_TABLE_CAPACITY];
 };
+void init_lock(void){
+	int status = pthread_mutex_init(&lock,NULL);
+	if(status != 0){
+		exit(status);
+	}
+}
 
 struct hash_table_v1 *hash_table_v1_create()
 {
 	struct hash_table_v1 *hash_table = calloc(1, sizeof(struct hash_table_v1));
 	assert(hash_table != NULL);
-	int status = pthread_mutex_init(&lock,NULL);
-	if(status != 0){
-		exit(status);
-	}
+	init_lock();
 	for (size_t i = 0; i < HASH_TABLE_CAPACITY; ++i) {
 		struct hash_table_entry *entry = &hash_table->entries[i];
 		SLIST_INIT(&entry->list_head);
