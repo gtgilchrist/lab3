@@ -23,29 +23,29 @@ struct hash_table_v2 {
 	struct hash_table_entry entries[HASH_TABLE_CAPACITY];
 };
 
-void init_lock_v2(lock){
-	int status = pthread_mutex_init(lock,NULL);
+void init_lock_v2(pthread_mutex_t *lock){
+	int status = pthread_mutex_init(&lock,NULL);
 	if(status != 0){
 		exit(status);
 	}
 }
 
-void lock_lock_v2(lock){
-	int status = pthread_mutex_lock(lock);
+void lock_lock_v2(pthread_mutex_t *lock){
+	int status = pthread_mutex_lock(&lock);
 	if(status != 0){
 		exit(status);
 	}
 }
 
-void unlock_lock_v2(lock){
-	int status = pthread_mutex_unlock(lock);
+void unlock_lock_v2(pthread_mutex_t *lock){
+	int status = pthread_mutex_unlock(&lock);
 	if(status != 0){
 		exit(status);
 	}
 }
 
-void destroy_lock_v2(lock){
-	int status = pthread_mutex_destroy(lock);
+void destroy_lock_v2(pthread_mutex_t *lock){
+	int status = pthread_mutex_destroy(&lock);
 	if(status != 0){
 		exit(status);
 	}
