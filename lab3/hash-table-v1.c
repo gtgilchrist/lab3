@@ -7,7 +7,7 @@
 #include <string.h>
 #include <sys/queue.h>
 
-pthread_mutex_t lock;
+
 
 struct list_entry {
 	const char *key;
@@ -23,30 +23,31 @@ struct hash_table_entry {
 
 struct hash_table_v1 {
 	struct hash_table_entry entries[HASH_TABLE_CAPACITY];
+	pthread_mutex_t lock;
 };
 
-void init_lock_v1(void){
+void init_lock_v1(pthread_mutex_t *lock){
 	int status = pthread_mutex_init(&lock,NULL);
 	if(status != 0){
 		exit(status);
 	}
 }
 
-void lock_lock_v1(void){
+void lock_lock_v1(pthread_mutex_t *lock){
 	int status = pthread_mutex_lock(&lock);
 	if(status != 0){
 		exit(status);
 	}
 }
 
-void unlock_lock_v1(void){
+void unlock_lock_v1(pthread_mutex_t *lock){
 	int status = pthread_mutex_unlock(&lock);
 	if(status != 0){
 		exit(status);
 	}
 }
 
-void destroy_lock_v1(void){
+void destroy_lock_v1(pthread_mutex_t *lock){
 	int status = pthread_mutex_destroy(&lock);
 	if(status != 0){
 		exit(status);
@@ -57,7 +58,7 @@ struct hash_table_v1 *hash_table_v1_create()
 {
 	struct hash_table_v1 *hash_table = calloc(1, sizeof(struct hash_table_v1));
 	assert(hash_table != NULL);
-	init_lock_v1();
+	init_lock_v1(&hash_table->lock);
 	for (size_t i = 0; i < HASH_TABLE_CAPACITY; ++i) {
 		struct hash_table_entry *entry = &hash_table->entries[i];
 		SLIST_INIT(&entry->list_head);
@@ -116,9 +117,9 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table,
 	list_entry = calloc(1, sizeof(struct list_entry));
 	list_entry->key = key;
 	list_entry->value = value;
-	lock_lock_v1();
+	lock_lock_v1(&hash_table->lock);
 	SLIST_INSERT_HEAD(list_head, list_entry, pointers);
-	unlock_lock_v1();
+	unlock_lock_v1(&hash_table->lock);
 }
 
 uint32_t hash_table_v1_get_value(struct hash_table_v1 *hash_table,
@@ -133,7 +134,7 @@ uint32_t hash_table_v1_get_value(struct hash_table_v1 *hash_table,
 
 void hash_table_v1_destroy(struct hash_table_v1 *hash_table)
 {
-	destroy_lock_v1();
+	destroy_lock_v1(&hash_table->lock);
 	for (size_t i = 0; i < HASH_TABLE_CAPACITY; ++i) {
 		struct hash_table_entry *entry = &hash_table->entries[i];
 		struct list_head *list_head = &entry->list_head;
