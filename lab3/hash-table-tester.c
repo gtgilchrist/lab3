@@ -258,11 +258,11 @@ int main(int argc, char *argv[])
 	size_t higher = base_times /(arguments.threads / 2);
 	printf("%'lu < %'lu < %'lu\n",lower,v2_times,higher);
 	if(lower < v2_times)
-		printf("v2 fast?\n")
+		printf("v2 fast?\n");
 	else if(higher < v2_times)
-		printf("V2 slow\n")
+		printf("V2 slow\n");
 	else
-		printf("Just Right!\n")
+		printf("Just Right!\n");
 
 	return 0;
 }
