@@ -256,7 +256,7 @@ int main(int argc, char *argv[])
 
 	size_t lower = base_times / (arguments.threads);
 	size_t higher = base_times /(arguments.threads / 2);
-	printf("%d < %d < %d",lower,v2_times,higher);
+	printf("%'lu < %'lu < %'lu",lower,v2_times,higher);
 
 	return 0;
 }
