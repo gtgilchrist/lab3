@@ -167,7 +167,9 @@ int main(int argc, char *argv[])
 		}
 	}
 	gettimeofday(&end, NULL);
-	printf("Hash table base: %'lu usec\n", usec_diff(&start, &end));
+	size_t base_times = usec_diff(&start, &end);
+	printf("Hash table base: %'lu usec\n", base_times);
+	
 
 	size_t missing = 0;
 	for (uint32_t i = 0; i < arguments.threads; ++i) {
@@ -233,7 +235,8 @@ int main(int argc, char *argv[])
 		}
 	}
 	gettimeofday(&end, NULL);
-	printf("Hash table v2: %'lu usec\n", usec_diff(&start, &end));
+	size_t v2_times = usec_diff(&start, &end);
+	printf("Hash table v2: %'lu usec\n", v2_times);
 
 	missing = 0;
 	for (uint32_t i = 0; i < arguments.threads; ++i) {
@@ -250,6 +253,10 @@ int main(int argc, char *argv[])
 
 	free(threads);
 	free(data);
+
+	size_t lower = base_times / (arguments.threads);
+	size_t higher = base_times /(arguments.threads / 2);
+	printf("%d < %d < %d",lower,v2_times,higher);
 
 	return 0;
 }
