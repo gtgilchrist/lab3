@@ -256,7 +256,7 @@ int main(int argc, char *argv[])
 	free(data);
 
 	int num_cores = get_nprocs_conf();
-	printf("%'u\n",arguments.threads);
+	printf("%d\n",num_cores);
 	size_t lower = base_times / (num_cores);
 	size_t higher = base_times /(num_cores / 2);
 	printf("%'lu < %'lu < %'lu\n",lower,v2_times,higher);
