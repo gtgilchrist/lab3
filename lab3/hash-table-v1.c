@@ -107,6 +107,7 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table,
 	lock_lock_v1();
 	struct list_head *list_head = &hash_table_entry->list_head;
 	struct list_entry *list_entry = get_list_entry(hash_table, key, list_head);
+	unlock_lock_v1();
 
 	/* Update the value if it already exists */
 	if (list_entry != NULL) {
@@ -114,6 +115,7 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table,
 		return;
 	}
 
+		lock_lock_v1();
 	list_entry = calloc(1, sizeof(struct list_entry));
 	list_entry->key = key;
 	list_entry->value = value;

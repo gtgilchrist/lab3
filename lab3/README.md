@@ -12,14 +12,14 @@ Show an example run of your (completed) program on using the `-t` and `-s` flags
 of a run where the base hash table completes in between 1-2 seconds.
 
 An example run is as follows:
-./hash-table-tester -t 8 -s 65000
+./hash-table-tester -t 4 -s 120000
 Which has the following output:
-Generation: 74,780 usec
-Hash table base: 1,591,107 usec
+Generation: 78,774 usec
+Hash table base: 1,715,905 usec
     - 0 missing
-Hash table v1: 3,115,379 usec
+Hash table v1: 2,647,534 usec
     - 0 missing
-Hash table v2: 455,100 usec
+Hash table v2: 509,849 usec
     - 0 missing
 
 ## First Implementation
