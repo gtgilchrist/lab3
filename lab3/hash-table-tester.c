@@ -2,6 +2,7 @@
 #include "hash-table-v1.h"
 #include "hash-table-v2.h"
 
+#include <sys/sysinfo.h>
 #include <argp.h>
 #include <locale.h>
 #include <pthread.h>
@@ -254,9 +255,10 @@ int main(int argc, char *argv[])
 	free(threads);
 	free(data);
 
+	int num_cores = get_nprocs_conf();
 	printf("%'u\n",arguments.threads);
-	size_t lower = base_times / (arguments.threads);
-	size_t higher = base_times /(arguments.threads / 2);
+	size_t lower = base_times / (num_cores);
+	size_t higher = base_times /(num_cores / 2);
 	printf("%'lu < %'lu < %'lu\n",lower,v2_times,higher);
 	if(lower > v2_times)
 		printf("v2 fast?\n");
