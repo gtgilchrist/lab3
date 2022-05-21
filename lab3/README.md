@@ -39,6 +39,8 @@ remain constant. Explain any differences between the two.
 Describe your second implementation strategy here (the one with a multiple
 mutexes). Argue why your strategy is correct.
 
+The second impl
+
 ### Performance
 
 Run the tester such that the base hash table completes in 1-2 seconds.

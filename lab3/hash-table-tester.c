@@ -2,7 +2,7 @@
 #include "hash-table-v1.h"
 #include "hash-table-v2.h"
 
-#include <sys/sysinfo.h>
+
 #include <argp.h>
 #include <locale.h>
 #include <pthread.h>
@@ -168,8 +168,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	gettimeofday(&end, NULL);
-	size_t base_times = usec_diff(&start, &end);
-	printf("Hash table base: %'lu usec\n", base_times);
+	printf("Hash table base: %'lu usec\n",  usec_diff(&start, &end));
 	
 
 	size_t missing = 0;
@@ -236,8 +235,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	gettimeofday(&end, NULL);
-	size_t v2_times = usec_diff(&start, &end);
-	printf("Hash table v2: %'lu usec\n", v2_times);
+	printf("Hash table v2: %'lu usec\n", usec_diff(&start, &end));
 
 	missing = 0;
 	for (uint32_t i = 0; i < arguments.threads; ++i) {
@@ -254,18 +252,5 @@ int main(int argc, char *argv[])
 
 	free(threads);
 	free(data);
-
-	int num_cores = get_nprocs_conf();
-	printf("%d\n",num_cores);
-	size_t lower = base_times / (num_cores);
-	size_t higher = base_times /(num_cores / 2);
-	printf("%'lu < %'lu < %'lu\n",lower,v2_times,higher);
-	if(lower > v2_times)
-		printf("v2 fast?\n");
-	else if(higher < v2_times)
-		printf("V2 slow\n");
-	else
-		printf("Just Right!\n");
-
 	return 0;
 }
