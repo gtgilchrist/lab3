@@ -1,15 +1,26 @@
 # Hash Hash Hash
 
-One line description of this code.
+Making thread-safe versions of a function to add elements into a hash table with multiple collisions.
 
 ## Building
 
-Explain briefly how to build your program.
+Use the "make" command to build the program.
 
 ## Running
 
 Show an example run of your (completed) program on using the `-t` and `-s` flags
 of a run where the base hash table completes in between 1-2 seconds.
+
+An example run is as follows:
+./hash-table-tester -t 8 -s 65000
+Which has the following output:
+Generation: 74,780 usec
+Hash table base: 1,591,107 usec
+    - 0 missing
+Hash table v1: 3,115,379 usec
+    - 0 missing
+Hash table v2: 455,100 usec
+    - 0 missing
 
 ## First Implementation
 
@@ -39,4 +50,4 @@ implementation and your first, which respect why you get a performance increase.
 
 ## Cleaning up
 
-Explain briefly how to clean up all binary files.
+The "make clean" command deletes all the binary files.
