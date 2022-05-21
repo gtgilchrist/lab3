@@ -105,13 +105,15 @@ void hash_table_v2_add_entry(struct hash_table_v2 *hash_table,
 	lock_lock_v2(&hash_table_entry->lock);
 	struct list_head *list_head = &hash_table_entry->list_head;
 	struct list_entry *list_entry = get_list_entry(hash_table, key, list_head);
+	unlock_lock_v2(&hash_table_entry->lock);
 
 	/* Update the value if it already exists */
 	if (list_entry != NULL) {
 		list_entry->value = value;
 		return;
 	}
-
+	
+	lock_lock_v2(&hash_table_entry->lock);
 	list_entry = calloc(1, sizeof(struct list_entry));
 	list_entry->key = key;
 	list_entry->value = value;
